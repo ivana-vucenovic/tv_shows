@@ -25,11 +25,8 @@
                     <td>{{show.id}}</td>
                     <td>{{show.title}}</td>
                     <td>{{show.network}}</td>
-                    <td>{{show.release_date}}</td>
-
-                    {% foe each_show in show %}
-                        <td><a href ='/shows/{{show.id}}'>Show</a></td>
-                    {% endfor %}
+                    <td>{{show.release_date|date:'SHORT_DATE_FORMAT'}}</td>
+                    <td><a href ='/shows/{{show.id}}'>Show</a> | <a href ='/shows/{{show.id}}/edit'>Edit</a> | <a href ='/shows/{{show.id}}/delete'>Delete</a></td> 
                 </tr>
                 {% endfor %}
             </tbody>
