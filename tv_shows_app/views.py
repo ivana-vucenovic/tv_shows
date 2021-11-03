@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from .models import Show
 
 def index(request):
@@ -13,6 +14,11 @@ def new(request):
     return render(request, 'new.html')
 
 def create(request):
+    errors = Show.objects.basic_validator(request.POST)
+    if len(errors) > 0:
+        for key,value in errors.items():
+            messages.error(request, value)
+        return redirect('/show/new')
     new_show = Show.objects.create(
         title = request.POST['title'],
         network = request.POST['network'],
@@ -32,6 +38,11 @@ def edit(request, show_id):
     return render(request, 'edit.html', context)
 
 def update(request, show_id):
+    errors = Show.objects.basic_validator(request.POST)
+    if len(errors) > 0:
+        for key,value in errors.items():
+            messages.error(request, value)
+        return redirect('/')
     to_update = Show.objects.get(id=show_id)
     
     to_update.title = request.POST['title']
@@ -57,4 +68,17 @@ def delete(request, show_id):
         return redirect("/")
     return redirect('/shows')
 
+# def err(request, show_id):
+#     errors = Show.objects.basic_validator(request.POST)
+#     if len(errors) > 0:
+#         for key,value in errors.items():
+#             messages.error(request, value)
+#         return redirect('/')
+#     # else:
+    #     show = Show.objects.get(id=id)
+    #     show.title = request.POST['show.title']
+    #     show.network = request.POST['show.network']
+    #     show.description = request.POST['show.description']
+    #     show.save()
+    #     return redirect('/shows')
 
