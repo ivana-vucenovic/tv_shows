@@ -42,7 +42,7 @@ def update(request, show_id):
     if len(errors) > 0:
         for key,value in errors.items():
             messages.error(request, value)
-        return redirect('/')
+        return redirect('/show/{show.id}/update')
     to_update = Show.objects.get(id=show_id)
     
     to_update.title = request.POST['title']
